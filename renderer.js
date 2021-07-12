@@ -8,5 +8,9 @@ button.dispatchEvent(new Event('click'));
 
 window.api.receive('toMain', (data) => {
     console.log("Window received = " , data);
-    result.textContent = data;
+    console.log("data type of recieved args", typeof data);
+    // Result of data received is of uint8, need to decode via TextDecoder()
+    // - Returns a string
+    // - 
+    result.textContent = new TextDecoder('utf8').decode(data);
 })

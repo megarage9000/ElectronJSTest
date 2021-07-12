@@ -1,5 +1,6 @@
 
 # Testing python scripts here
+import json
 from sys import argv
 from calculator.simple import SimpleCalculator
 
@@ -8,7 +9,13 @@ def calc(text):
     try:
         c = SimpleCalculator();
         c.run(text);
-        return c.log[-1];
+        result = str(c.log[-1])
+        randomJson = {
+            "Name": "John",
+            "Occupation": "Absolutely Nothing",
+            "Origin" : "Lost his pen LOL"
+        }
+        return json.dumps(randomJson);
     except Exception as e:
         print(e)
         return 0.0

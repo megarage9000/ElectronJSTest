@@ -43,15 +43,20 @@ app.on('window-all-closed', function () {
 // We can actually modify it to specify which python files!
 ipcMain.on("toMain", (event, args) => {
     var python = require('child_process').spawn('python', [`./python/${args[0]}`, args.slice(1)]);
-    let result;
-    python.stdout.on('data', function (data) {
-        result = data.toString('utf8');
-        console.log("Python response: ", result);
-        event.reply('toMain', result);
-    });
+    let result = [];
 
+    // For receiving data (receives as a readable stream) 
+    // - can be decoded into a string.
+    python.stdout.on('data', function (data) {
+        console.log("Python response: ", data);
+        result.push(Buffer.from(data));
+    });
+    python.stdout.on('end', function() {
+        event.reply('toMain', Buffer.concat(result));
+    })
+
+    // Error handling
     python.stderr.on('data', (data) => {
-        result = `stderr: ${data}`;
         console.error(result);
         event.reply('toMain', data);
     });
