@@ -12,10 +12,11 @@ def calc(text):
         result = str(c.log[-1])
         randomJson = {
             "Name": "John",
-            "Occupation": "Absolutely Nothing",
-            "Origin" : "Lost his pen LOL"
+            "Occupation": "Petty Crimes",
+            "Origin" : "COD lobbies"
         }
-        return json.dumps(randomJson);
+        # return json.dumps(randomJson)\
+        return c.log[-1]
     except Exception as e:
         print(e)
         return 0.0

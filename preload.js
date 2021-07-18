@@ -31,17 +31,19 @@ contextBridge.exposeInMainWorld(
     "api", {
         send: (channel, data) => {
             // Setup channels to send toMain
-            let validChannels = ["toMain"]
-            if((validChannels).includes(channel)) {
-                ipcRenderer.send(channel, data);
-            }
+            ipcRenderer.send(channel, data);
+            
         },
         receive: (channel, receiveFunc) => {
-            let validChannels = ["toMain"]
-            if((validChannels).includes(channel)) {
                 // Only include event when the receiveFunc needs to return backs
-                ipcRenderer.on(channel, (event, ...args) => receiveFunc(...args))
-            }
+            ipcRenderer.on(channel, (event, ...args) => receiveFunc(...args)); 
+        },
+
+        // Try this soon?
+        invoke: (channel, data, function) => {
+            ipcRenderer.invoke(channel, data).then(result) => {
+                
+            };
         }
     }
 )
